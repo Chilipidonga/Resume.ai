@@ -6,7 +6,6 @@ const fs = require('fs');
 const cors = require('cors');
 
 const app = express();
-const port = 5000;
 
 // Middleware
 app.use(cors());
@@ -29,7 +28,7 @@ async function extractTextWithGemini(filePath, mimeType = "application/pdf") {
         // Convert file to Base64 to send to Google
         const base64Data = fileBuffer.toString('base64');
 
-        // 🔥 FIX: Using the model found in your list
+        // Using the model found in your list
         const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
         
         const result = await model.generateContent([
@@ -123,7 +122,6 @@ app.post('/chat', async (req, res) => {
         }
 
         // C. Generate Answer
-        // 🔥 FIX: Using the same model here
         const chatModel = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
         
         const prompt = `
@@ -147,6 +145,8 @@ app.post('/chat', async (req, res) => {
     }
 });
 
+// --- Server Start (Render Friendly) ---
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`🚀 Server running on http://localhost:${port}`);
 });
