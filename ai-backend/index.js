@@ -75,7 +75,7 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
         resumeChunks = [text]; 
 
         // C. Generate Embeddings
-        const model = genAI.getGenerativeModel({ model: "text-embedding-001" });
+        const model = genAI.getGenerativeModel({ model: "text-embedding-004" });
         const result = await model.embedContent(text);
         resumeEmbeddings = [result.embedding.values];
 
