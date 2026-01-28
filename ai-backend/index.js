@@ -4,6 +4,7 @@ const multer = require('multer');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const fs = require('fs');
 const cors = require('cors');
+const os = require('os');
 
 const app = express();
 
@@ -13,8 +14,7 @@ app.use(express.json());
 
 // 1. Setup Google Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const upload = multer({ dest: 'uploads/' });
-
+const upload = multer({ dest: os.tmpdir() });
 // 2. In-Memory Database (RAM)
 let resumeChunks = [];
 let resumeEmbeddings = [];
