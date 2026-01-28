@@ -1,28 +1,28 @@
 require('dotenv').config();
 const apiKey = process.env.GEMINI_API_KEY;
 
-if (!apiKey) {
-    console.error("❌ Error: API Key not found in .env file");
-    process.exit(1);
+async function checkModels() {
+  console.log("🔍 Searching for models...");
+  
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+    const data = await response.json();
+
+    if (data.error) {
+      console.error("❌ Error:", data.error.message);
+      return;
+    }
+
+    // Eesari List motham print cheddam!
+    console.log("\n✅ AVAILABLE MODELS LIST (Menu Card):");
+    console.log("-----------------------------------");
+    const names = data.models.map(m => m.name.replace('models/', ''));
+    console.log(names); // <--- This will show everything
+    console.log("-----------------------------------");
+
+  } catch (error) {
+    console.error("Connection Failed:", error.message);
+  }
 }
 
-console.log("🔍 Checking available models for your API Key...");
-
-// Direct ga Google API ni adugutunnam (No SDK confusion)
-fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`)
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            console.error("❌ API Error:", data.error.message);
-        } else {
-            console.log("\n✅ AVAILABLE MODELS (Copy one of these exact names):");
-            console.log("-----------------------------------------------------");
-            // Filter only "generateContent" supported models
-            const chatModels = data.models.filter(m => m.supportedGenerationMethods.includes("generateContent"));
-            chatModels.forEach(m => {
-                console.log(`👉 ${m.name.replace("models/", "")}`);
-            });
-            console.log("-----------------------------------------------------\n");
-        }
-    })
-    .catch(err => console.error("❌ Network Error:", err));
+checkModels();
