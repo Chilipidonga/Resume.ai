@@ -75,7 +75,7 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
         resumeChunks = [text]; 
 
         // C. Generate Embeddings
-        const model = genAI.getGenerativeModel({ model: "text-embedding-004" });
+        const model = genAI.getGenerativeModel({ model: "text-embedding-001" });
         const result = await model.embedContent(text);
         resumeEmbeddings = [result.embedding.values];
 
@@ -122,7 +122,7 @@ app.post('/chat', async (req, res) => {
         }
 
         // C. Generate Answer
-        const chatModel = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+        const chatModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
         
         const prompt = `
         You are an HR Assistant. Answer the question based strictly on the resume context below.
