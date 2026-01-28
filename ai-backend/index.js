@@ -105,7 +105,7 @@ app.post('/chat', async (req, res) => {
         console.log("❓ Question:", question);
 
         // A. Embed Question
-        const embeddingModel = genAI.getGenerativeModel({ model: "text-embedding-004" });
+        const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
         const qResult = await embeddingModel.embedContent(question);
         const qEmbedding = qResult.embedding.values;
 
